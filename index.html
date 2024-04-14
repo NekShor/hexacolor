@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hexa Color</title>
+        <style>
+            .unvisible {
+                display: none;
+            }
+
+            #game {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #app #color {
+                width: 100px;
+                height: 100px;
+                background-color: #000;
+                border-radius: 100%;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f2f2f2;
+            }
+
+            #app {
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+                margin: 20px;
+            }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+            #container {
+                margin-top: 20px;
+            }
+
+            #game {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #color {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 20px;
+                border-radius: 50%;
+            }
+
+            #inputs {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+
+            label {
+                margin-right: 10px;
+                font-size: 16px;
+            }
+
+            /* CSS pour inputs */
+
+            input {
+                width: 60px;
+                height: 30px;
+                text-align: center;
+                font-size: 16px;
+                border: 2px solid #ccc;
+                border-radius: 4px;
+                transition: border-color 0.3s;
+                margin: 10px;
+            }
+
+            input:focus {
+                outline: none;
+                border-color: #4CAF50;
+            }
+
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+
+            #score {
+                margin-top: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+                color: #333;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <button id="start" onclick="startGame()">Start Game</button>
+            <div id="container" class="unvisible">
+                <button id="restart" onclick="startGame()">Restart Game</button>
+                <div id="game">
+                    <div id="color">
+    
+                    </div>
+                    <div id="inputs">
+                        <label for="red">Red</label>
+                        <input type="number" id="red" min="0" max="255" value="0">
+                        <label for="green">Green</label>
+                        <input type="number" id="green" min="0" max="255" value="0">
+                        <label for="blue">Blue</label>
+                        <input type="number" id="blue" min="0" max="255" value="0">
+                        <button onclick="checkColor()">Valider</button>
+                    </div>
+                </div>
+                <div id="score" class="unvisible">
+                    <h1>Score: <span id="scoreValue"></span> / 768</h1>
+                    <p>La couleur était: <span id="realColor"></span></p>
+                </div>
+            </div>
+            <div id="explications">
+                <h2>Explications</h2>
+                <p>Le but du jeu est de deviner la couleur affichée en RGB.</p>
+                <p>Vous devez rentrer les valeurs de rouge, vert et bleu dans les inputs.</p>
+                <p>Plus vous êtes proche de la couleur réelle, plus votre score sera élevé.</p>
+                <p>Le score est le cumul des différences entre les valeurs réelles et vos valeurs.</p>
+            </div>
+        </div>
+        <script>
+            var color = "#000"
+            function startGame() {
+                document.getElementById('start').classList.add('unvisible');
+                document.getElementById('container').classList.remove('unvisible');
+                document.getElementById('score').classList.add('unvisible');
+                let game = document.getElementById('game');
+                let colorDiv = document.getElementById('color');
+
+                let red = Math.floor(Math.random() * 256);
+                let green = Math.floor(Math.random() * 256);
+                let blue = Math.floor(Math.random() * 256);
+
+                color = `rgb(${red}, ${green}, ${blue})`;
+                colorDiv.style.backgroundColor = color;
+            }
+
+            function checkColor() {
+                let redGuess = document.getElementById('red').value;
+                let greenGuess = document.getElementById('green').value;
+                let blueGuess = document.getElementById('blue').value;
+
+                var realColor = color.split('(')[1].split(')')[0].split(', ');
+                let red = realColor[0];
+                let green = realColor[1];
+                let blue = realColor[2];
+
+                var score = 0;
+                var diffRed = Math.abs(parseInt(red) - parseInt(redGuess));
+                var diffGreen = Math.abs(parseInt(green) - parseInt(greenGuess));
+                var diffBlue = Math.abs(parseInt(blue) - parseInt(blueGuess));
+
+                var diffTotal = diffRed + diffGreen + diffBlue;
+                var score = (256 * 3) - diffTotal;
+
+                document.getElementById('score').classList.remove('unvisible');
+                document.getElementById('scoreValue').innerText = score;
+                document.getElementById('realColor').innerText = `rgb(${red}, ${green}, ${blue})`;
+            }
+        </script>
+    </body>
+</html>
