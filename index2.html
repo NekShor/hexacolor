@@ -243,15 +243,18 @@
                 let green = Math.floor(Math.random() * 256);
                 let blue = Math.floor(Math.random() * 256);
 
-                document.getElementById('red').innerHTML = red;
-                document.getElementById('green').innerHTML = green;
-                document.getElementById('blue').innerHTML = blue;
+                document.getElementById('red').innerHTML = red + '<br>' + red.toString(16);
+                document.getElementById('green').innerHTML = green + '<br>' + green.toString(16);
+                document.getElementById('blue').innerHTML = blue + '<br>' + blue.toString(16);
             }
 
             function checkColor() {
                 let red = document.getElementById('red').innerHTML;
+                red = parseInt(red.split('<br>')[0]);
                 let green = document.getElementById('green').innerHTML;
+                green = parseInt(green.split('<br>')[0]);
                 let blue = document.getElementById('blue').innerHTML;
+                blue = parseInt(blue.split('<br>')[0]);
 
                 let redInput = document.querySelector('#colorCont input').value.substring(1, 3);
                 let greenInput = document.querySelector('#colorCont input').value.substring(3, 5);
@@ -262,9 +265,10 @@
                 blueInput = parseInt(blueInput, 16);
                 
                 let score = Math.abs(red - redInput) + Math.abs(green - greenInput) + Math.abs(blue - blueInput);
+                score = 768 - score;
 
                 document.getElementById('score').classList.remove('unvisible');
-                document.getElementById('score').querySelector('h1').innerHTML = `Score: ${score}`;
+                document.getElementById('score').querySelector('h1').innerHTML = `Score: ${score} / 768`;
 
                 document.getElementById('correctColor').classList.remove('unvisible');
                 document.getElementById('correctColorViewer').style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;

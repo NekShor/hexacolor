@@ -145,12 +145,14 @@
     
                     </div>
                     <div id="inputs">
+                        <label for="HorN">Hexadecimal</label>
+                        <input type="checkbox" id="HorN" value="0">
                         <label for="red">Red</label>
-                        <input type="number" id="red" min="0" max="255" value="0">
+                        <input type="number" id="red" min="0" max="255" value="0" class="n">
                         <label for="green">Green</label>
-                        <input type="number" id="green" min="0" max="255" value="0">
+                        <input type="number" id="green" min="0" max="255" value="0" class="n">
                         <label for="blue">Blue</label>
-                        <input type="number" id="blue" min="0" max="255" value="0">
+                        <input type="number" id="blue" min="0" max="255" value="0" class="n">
                         <button onclick="checkColor()">Valider</button>
                     </div>
                 </div>
@@ -168,6 +170,19 @@
             </div>
         </div>
         <script>
+            document.getElementById('HorN').addEventListener('change', function() {
+                var inputs = document.getElementsByClassName('n');
+                for (var i = 0; i < inputs.length; i++) {
+                    if (this.checked) {
+                        inputs[i].type = 'text';
+                        inputs[i].value = '';
+                    } else {
+                        inputs[i].type = 'number';
+                        inputs[i].value = 0;
+                    }
+                }
+            });
+
             var color = "#000"
             function startGame() {
                 document.getElementById('start').classList.add('unvisible');
@@ -189,6 +204,13 @@
                 let greenGuess = document.getElementById('green').value;
                 let blueGuess = document.getElementById('blue').value;
 
+                var HorN = document.getElementById('HorN').checked;
+                if (HorN) {
+                    redGuess = parseInt(redGuess, 16);
+                    greenGuess = parseInt(greenGuess, 16);
+                    blueGuess = parseInt(blueGuess, 16);
+                }
+
                 var realColor = color.split('(')[1].split(')')[0].split(', ');
                 let red = realColor[0];
                 let green = realColor[1];
@@ -204,7 +226,7 @@
 
                 document.getElementById('score').classList.remove('unvisible');
                 document.getElementById('scoreValue').innerText = score;
-                document.getElementById('realColor').innerText = `rgb(${red}, ${green}, ${blue})`;
+                document.getElementById('realColor').innerText = `rgb(${red}, ${green}, ${blue}) / #${parseInt(red).toString(16)}${parseInt(green).toString(16)}${parseInt(blue).toString(16)}`;
             }
         </script>
     </body>
