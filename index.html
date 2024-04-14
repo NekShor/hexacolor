@@ -131,10 +131,12 @@
         </style>
     </head>
     <body>
-        <a href="/index2.php">
+        <a href="index2.html">
             Jeux reverse
         </a>
         <div id="app">
+            <h1>Hexa Color</h1>
+            <h2>Number to color</h2>
             <button id="start" onclick="startGame()">Start Game</button>
             <div id="container" class="unvisible">
                 <button id="restart" onclick="startGame()">Restart Game</button>
@@ -157,7 +159,7 @@
                     <p>La couleur était: <span id="realColor"></span></p>
                 </div>
             </div>
-            <div id="explications">
+            <div id="explications" style="margin-top: 100px;">
                 <h2>Explications</h2>
                 <p>Le but du jeu est de deviner la couleur affichée en RGB.</p>
                 <p>Vous devez rentrer les valeurs de rouge, vert et bleu dans les inputs.</p>
